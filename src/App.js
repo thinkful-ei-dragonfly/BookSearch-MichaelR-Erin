@@ -112,9 +112,15 @@ class App extends React.Component{
 
   state = {
     books: [],
+    searchTerm: '',
     printType: null,
     filterType: null,
     error: null,
+  }
+
+  componentDidMount() {
+    const url = `https://www.googleapis.com/books/v1/volumes?q=${this.state.searchTerm}&key=${API_KEY}`
+    fetch(url)
   }
 
   render() {

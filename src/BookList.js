@@ -6,7 +6,6 @@ function BookList(props) {
 
   return (
     <div>
-      BookList
       {mappedBooks}
     </div>
   )
