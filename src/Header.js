@@ -6,8 +6,8 @@ function Header(props) {
   return (
     <div>
       <h1>Google Book Search</h1>
-      <SearchBar />
-      <FilterBar />
+      <SearchBar updateSearchTerm={props.updateSearchTerm}/>
+      <FilterBar updatePrintType={props.updatePrintType} updateFilterType={props.updateFilterType}/>
     </div>
   )
 }

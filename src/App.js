@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 import Header from './Header';
@@ -112,25 +111,77 @@ class App extends React.Component{
 
   state = {
     books: [],
-    searchTerm: '',
-    printType: null,
-    filterType: null,
+    printType: 'books',
+    filterType: 'free-ebooks',
     error: null,
   }
 
-  componentDidMount() {
-    const url = `https://www.googleapis.com/books/v1/volumes?q=${this.state.searchTerm}&key=${API_KEY}`
+  // componentDidMount() {
+  //   if (this.state.searchTerm) {
+  //     const BASE_URL = `https://www.googleapis.com/books/v1/volumes?q=`;
+  //     let url = BASE_URL + this.state.searchTerm;
+  //     if (this.state.printType) {
+  //       url += `&printType=${this.state.printType}`;
+  //     }
+  //     if (this.state.filterType) {
+  //       url += `&filter=${this.state.filterType}`;
+  //     }
+  //     url += `&key=${API_KEY}`;
+  //     console.log(url);
+  //     fetch(url)
+  //       .then(res => res.json())
+  //       .then(res => {
+  //         console.log(res);
+  //         this.setState({
+  //           books: res.items
+  //         })
+  //       });
+  //   }
+  // }
+
+  updateSearchTerm = (term) => {
+    const BASE_URL = `https://www.googleapis.com/books/v1/volumes?q=`;
+    let url = BASE_URL + term;
+    if (this.state.printType) {
+      url += `&printType=${this.state.printType}`;
+    }
+    if (this.state.filterType) {
+      url += `&filter=${this.state.filterType}`;
+    }
+    url += `&key=${API_KEY}`;
+    console.log(url);
     fetch(url)
+      .then(res => res.json())
+      .then(res => {
+        console.log(res);
+        this.setState({
+          books: res.items
+        })
+      });
+  }
+
+  updatePrintType = (type) => {
+    this.setState({
+      printType: type
+    });
+  }
+
+  updateFilterType = (type) => {
+    this.setState({
+      filterType: type
+    });
   }
 
   render() {
+    // console.log(this.state);
+
     return (
       <div className="App">
         <header className="App-header">
-          <Header />
+          <Header updateSearchTerm={this.updateSearchTerm} updatePrintType={this.updatePrintType} updateFilterType={this.updateFilterType}/>
         </header>
         <main>
-          <BookList books={data}/>
+          <BookList books={this.state.books}/>
         </main>
       </div>
     );

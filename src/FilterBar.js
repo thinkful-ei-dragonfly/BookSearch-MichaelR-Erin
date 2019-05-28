@@ -3,9 +3,9 @@ import React from 'react';
 function FilterBar(props) {
   function handleChange(e) {
     if (e.target.id ==="print-style") {
-      console.log('Change state.printStyle');
+      props.updatePrintType(e.target.value);
     } else {
-      console.log('Change state.bookType');
+      props.updateFilterType(e.target.value);
     }
   }
 
