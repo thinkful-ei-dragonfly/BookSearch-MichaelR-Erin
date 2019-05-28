@@ -39,7 +39,7 @@ class App extends React.Component{
   // }
 
   updateSearchTerm = (term) => {
-    const BASE_URL = `https://www.googleapis.com/books/v1/volumes?q=`;
+    const BASE_URL = `https://www.googleapis.com/books/v1/volumes?t=`;
     let url = BASE_URL + term;
     if (this.state.printType) {
       url += `&printType=${this.state.printType}`;
@@ -50,9 +50,14 @@ class App extends React.Component{
     url += `&key=${API_KEY}`;
     console.log(url);
     fetch(url)
-      .then(res => res.ok ? res.json() : Promise.reject('something went wrong'))
+      .then(res => {
+        return res.json()
+      })
       .then(res => {
         console.log(res);
+        if (res.error) {
+          return Promise.reject(res.error)
+        }
         this.setState({
           books: res.items
         })
@@ -60,7 +65,7 @@ class App extends React.Component{
       .catch(err => {
         console.log(err);
         this.setState({
-          error: err
+          error: err.message
         })
       });
       
